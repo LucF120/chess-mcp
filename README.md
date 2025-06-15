@@ -1,6 +1,7 @@
 # chess-mcp
 
 An MCP server that integrates with the public chess.com API 
+https://www.chess.com/news/view/published-data-api
 
 Current functions:
 
