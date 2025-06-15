@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch, AsyncMock
-from chess_mcp_server.server import get_player_info
+from chess_mcp.server import get_player_info
 
 @pytest.mark.asyncio
 async def test_get_player_profile():
@@ -17,7 +17,7 @@ async def test_get_player_profile():
     }
     
     # Mock both the chess request and country request
-    with patch("chess_mcp_server.tools.handlers.make_chess_request") as mock_request:
+    with patch("chess_mcp.tools.handlers.make_chess_request") as mock_request:
         # First call returns player data, second call returns country data
         mock_request.side_effect = [
             mock_data,  # Player data
