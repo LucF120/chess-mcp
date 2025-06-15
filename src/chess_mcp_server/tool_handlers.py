@@ -1,7 +1,7 @@
 # tools/tool_handlers.py
 from typing import Any
 import httpx
-from chess_mcp_server.util import unix_time_to_date, get_image_for_claude
+from util import unix_time_to_date
 
 CHESS_API_BASE_URL = "https://api.chess.com/pub/"
 USER_AGENT = "chess-mcp-server/1.0"

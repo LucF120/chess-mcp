@@ -1,5 +1,5 @@
 from mcp.server.fastmcp import FastMCP
-from tools.tool_handlers import get_player_info
+from chess_mcp_server.tool_handlers import get_player_info
 
 mcp = FastMCP("chess")
 
