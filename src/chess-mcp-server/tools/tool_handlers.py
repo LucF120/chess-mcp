@@ -33,7 +33,7 @@ def format_player_info(data: dict[str, Any]) -> str:
     League: {data["league"]}
     """
 
-async def get_player_data(player_name: str) -> str:
+async def get_player_info(player_name: str) -> str:
     """Get information about a chess player"""
     url = f"{CHESS_API_BASE_URL}player/{player_name}"
     data = await make_chess_request(url)
