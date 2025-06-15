@@ -1,5 +1,5 @@
 from mcp.server.fastmcp import FastMCP
-import tool_handlers as tools
+import chess_mcp_server.tools.handlers as tools
 
 mcp = FastMCP("chess")
 
