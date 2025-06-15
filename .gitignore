@@ -1,0 +1,10 @@
+chess_mcp.log
+.venv 
+.env
+.DS_Store
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
