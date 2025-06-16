@@ -94,9 +94,9 @@ def format_titled_players(data: dict[str, Any], title: str) -> str:
 def format_game_stats(stats: dict[str, Any]) -> str:
     """Format the game stats into a string"""
     total_games = stats["record"]["win"] + stats["record"]["loss"] + stats["record"]["draw"]
-    winrate = stats["record"]["win"] / total_games
-    lossrate = stats["record"]["loss"] / total_games
-    drawrate = stats["record"]["draw"] / total_games
+    winrate = stats["record"]["win"] / total_games * 100
+    lossrate = stats["record"]["loss"] / total_games * 100
+    drawrate = stats["record"]["draw"] / total_games * 100
 
     return f"""
     Current Rating: {stats["last"]["rating"]}
