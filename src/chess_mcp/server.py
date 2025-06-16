@@ -55,6 +55,15 @@ async def get_titled_players(title: str) -> str:
     
     return format_titled_players(data, title)
 
+@mcp.tool()
+async def get_player_stats(player_name: str) -> str:
+    """Get stats for a chess player"""
+    url = f"{CHESS_API_BASE_URL}player/{player_name}/stats"
+    data = await make_chess_request(url)
+    if not data:
+        return f"Unable to fetch stats for {player_name}"
+    return format_stats(data, player_name)
+
 async def get_country_name(url: str) -> str:
     """Get the name of a country from its URL"""
     data = await make_chess_request(url)
@@ -80,6 +89,65 @@ def format_titled_players(data: dict[str, Any], title: str) -> str:
     return f"""
     Players with the {title} title:
     {", ".join(data["players"])}
+    """
+
+def format_game_stats(stats: dict[str, Any]) -> str:
+    """Format the game stats into a string"""
+    total_games = stats["record"]["win"] + stats["record"]["loss"] + stats["record"]["draw"]
+    winrate = stats["record"]["win"] / total_games
+    lossrate = stats["record"]["loss"] / total_games
+    drawrate = stats["record"]["draw"] / total_games
+
+    return f"""
+    Current Rating: {stats["last"]["rating"]}
+    Peak Rating: {stats["best"]["rating"]}
+    Total Games: {total_games}
+    Wins: {stats["record"]["win"]} ({winrate:.2f}%)
+    Losses: {stats["record"]["loss"]} ({lossrate:.2f}%)
+    Draws: {stats["record"]["draw"]} ({drawrate:.2f}%)
+    Date of Peak Rating: {unix_time_to_date(stats["best"]["date"])}
+    Game where peak rating was achieved: {stats["best"]["game"]}
+    """
+
+def format_tactic_stats(stats: dict[str, Any]) -> str:
+    """Format the tactic stats into a string"""
+    return f"""
+    Peak Tactic Rating: {stats["highest"]["rating"]}
+    Date of Peak Tactic Rating: {unix_time_to_date(stats["highest"]["date"])}
+    """
+
+def format_puzzle_rush_stats(stats: dict[str, Any]) -> str:
+    """Format the puzzle rush stats into a string"""
+    return f"""
+    Best Puzzle Rush Performance: {stats["best"]["score"]} correct out of {stats["best"]["total_attempts"]}
+    """
+
+
+def format_stats(data: dict[str, Any], player_name: str) -> str:
+    """Format the stats response into a string"""
+    rapid_stats = data["chess_rapid"]
+    blitz_stats = data["chess_blitz"]
+    bullet_stats = data["chess_bullet"]
+    daily_stats = data["chess_daily"]
+    fide_rating = data["fide"]
+    tactics_stats = data["tactics"]
+    puzzle_rush_stats = data["puzzle_rush"]
+    return f"""
+    Stats for {player_name}:
+    Rapid Stats:
+        {format_game_stats(rapid_stats)}
+    Blitz Stats:
+        {format_game_stats(blitz_stats)}
+    Bullet Stats:
+        {format_game_stats(bullet_stats)}
+    Daily Stats:
+        {format_game_stats(daily_stats)}
+    Fide Rating:
+        {fide_rating}
+    Tactics Stats:
+        {format_tactic_stats(tactics_stats)}
+    Puzzle Rush Stats: 
+        {format_puzzle_rush_stats(puzzle_rush_stats)}
     """
 
 def unix_time_to_date(unix_time: int) -> str:
